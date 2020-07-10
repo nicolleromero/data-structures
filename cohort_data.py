@@ -244,11 +244,7 @@ def get_cohort_for(filename, name):
 
     for student in all_data:
       if name in student:
-        return student[3]
-      elif name == 'Hannah Abbott':
-        return 'Winter 2016'
-      else:
-        return None
+        return student[-1]
 
     file.close()
 
