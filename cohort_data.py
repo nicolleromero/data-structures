@@ -61,10 +61,27 @@ def students_by_cohort(filename, cohort='All'):
       - list[list]: a list of lists
     """
 
+
+    file = open(filename)
+
     students = []
 
-    # TODO: replace this with your code
+    for line in file:
+        line = line.rstrip()
+        tokens = line.split('|')
 
+        first_name = tokens[0]
+        last_name = tokens[1]
+        # cohort = tokens[4]
+
+        if tokens[2] and cohort == tokens[4]:
+          students.append(first_name + " " + last_name)
+
+        elif tokens[2] and cohort == "All":
+          students.append(first_name + " " + last_name)
+
+    file.close()
+    
     return sorted(students)
 
 
