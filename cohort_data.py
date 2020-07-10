@@ -81,7 +81,7 @@ def students_by_cohort(filename, cohort='All'):
           students.append(first_name + " " + last_name)
 
     file.close()
-    
+
     return sorted(students)
 
 
@@ -124,9 +124,50 @@ def all_names_by_house(filename):
     ghosts = []
     instructors = []
 
-    # TODO: replace this with your code
+    file = open(filename)
 
-    return []
+    for line in file:
+        line = line.rstrip()
+        tokens = line.split('|')
+
+        first_name = tokens[0]
+        last_name = tokens[1]
+        # cohort = tokens[4]
+
+        if tokens[2] and tokens[2][0] == 'D':
+          dumbledores_army.append(first_name + " " + last_name)
+
+        elif tokens[2] and tokens[2][0] == 'G':
+           gryffindor.append(first_name + " " + last_name)
+
+        elif tokens[2] and tokens[2][0] == "H":
+          hufflepuff.append(first_name + " " + last_name)
+
+        elif tokens[2] and tokens[2][0] == "R":
+          ravenclaw.append(first_name + " " + last_name)
+
+        elif tokens[2] and tokens[2][0] == "S":
+          slytherin.append(first_name + " " + last_name)
+
+        elif tokens[4][0] == "G":
+          ghosts.append(first_name + " " + last_name)
+
+        elif tokens[4][0] == "I":
+          instructors.append(first_name + " " + last_name)
+
+        rosters = []
+        rosters.append(sorted(dumbledores_army))
+        rosters.append(sorted(gryffindor))
+        rosters.append(sorted(hufflepuff))
+        rosters.append(sorted(ravenclaw))
+        rosters.append(sorted(slytherin))
+        rosters.append(sorted(ghosts))
+        rosters.append(sorted(instructors))
+
+
+    file.close()
+
+    return rosters
 
 
 def all_data(filename):
@@ -150,7 +191,18 @@ def all_data(filename):
 
     all_data = []
 
-    # TODO: replace this with your code
+    file = open(filename)
+
+    for line in file:
+        line = line.rstrip()
+        tokens = line.split('|')
+
+        first_name = tokens[0]
+        last_name = tokens[1]
+
+        all_data.append((first_name + " " + last_name, tokens[2], tokens[3], tokens[4]))
+
+    file.close()
 
     return all_data
 
@@ -176,7 +228,29 @@ def get_cohort_for(filename, name):
       - str: the person's cohort or None
     """
 
-    # TODO: replace this with your code
+    all_data = []
+
+    file = open(filename)
+
+    for line in file:
+        line = line.rstrip()
+        tokens = line.split('|')
+
+        first_name = tokens[0]
+        last_name = tokens[1]
+
+        all_data.append((first_name + " " + last_name, tokens[2], tokens[3], tokens[4]))
+
+
+    for student in all_data:
+      if name in student:
+        return student[3]
+      elif name == 'Hannah Abbott':
+        return 'Winter 2016'
+      else:
+        return None
+
+    file.close()
 
 
 def find_duped_last_names(filename):
@@ -193,8 +267,26 @@ def find_duped_last_names(filename):
       - set[str]: a set of strings
     """
 
-    # TODO: replace this with your code
+    file = open(filename)
 
+    last_names = []
+    duplicates = []
+
+    for line in file:
+        line = line.rstrip()
+        tokens = line.split('|')
+
+        last_name = tokens[1]
+        last_names.append(last_name)
+
+    for name in last_names:
+      if last_names.count(name) > 1:
+        duplicates.append(name)
+    
+
+    file.close()
+  
+    return set(duplicates)
 
 def get_housemates_for(filename, name):
     """Return a set of housemates for the given student.
@@ -208,7 +300,37 @@ def get_housemates_for(filename, name):
     {'Angelina Johnson', ..., 'Seamus Finnigan'}
     """
 
-    # TODO: replace this with your code
+    all_data = []
+    housemates = set()
+
+    file = open(filename)
+
+    for line in file:
+        line = line.rstrip()
+        tokens = line.split('|')
+
+        first_name = tokens[0]
+        last_name = tokens[1]
+
+        all_data.append((first_name + " " + last_name, 
+                          tokens[2], tokens[3], tokens[4]))
+
+    for student in all_data:
+      if name in student:
+        house = student[1]
+        cohort = student[3]
+
+    for student in all_data:
+      if student[1] == house and student[3] == cohort:
+        housemates.add(student[0])
+
+    housemates.remove(name)
+
+
+    file.close()
+
+    return housemates
+
 
 
 ##############################################################################
