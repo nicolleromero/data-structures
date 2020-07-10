@@ -15,9 +15,20 @@ def all_houses(filename):
       - set[str]: a set of strings
     """
 
+
+    file = open(filename)
+
     houses = set()
 
-    # TODO: replace this with your code
+    for line in file:
+        line = line.rstrip()
+        tokens = line.split('|')
+
+        if tokens[2]:
+          houses.add(tokens[2])
+
+    
+    file.close()
 
     return houses
 
